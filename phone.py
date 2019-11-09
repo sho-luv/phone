@@ -2,8 +2,8 @@
 
 ###
 # 
-# This program uses Twilio's API 6.x to lookup who a phone is registrated
-# to as well as the carrier it is registrated with.
+# This program uses Twilio's API 6.x to lookup who a phone is registered
+# to as well as the carrier it is registered with.
 # 
 # Note: Twilio offers free trials that do not charge. You do not need to enter
 # a credit card or anything. All the features in this program can be used with
