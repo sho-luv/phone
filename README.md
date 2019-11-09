@@ -18,3 +18,28 @@ By prepending cell providers email gateway to cell numbers, it is possible to se
 emails that get routed to cell numbers as SMS messages. This is free.
 
 by sho_luv
+
+### Usage:
+```
+phone.py 
+usage: phone.py [-h] [-m "text message"] [-n] phone
+
+This program sends text messages to people by using email.
+
+positional arguments:
+  phone              Phone number to lookup or send text message to
+
+optional arguments:
+  -h, --help         show this help message and exit
+  -m "text message"  Text message
+  -n, -notwilio      no charge. Do not use Twilio API to lookup information
+                     and just send message
+```
+### Usage Example:
+```
+root@Id10t:~# phone.py XXXXXXXXXX
+[+]  The mobile number +1XXXXXXXXXX is registered to SHO LUV on the PWN Wireless network
+
+root@Id10t:~# phone.py XXXXXXXXXX -m "Hello from the Matrix"
+[+] Nov 09 00:54:36 Message sent to mobile number +1XXXXXXXXXX registered to SHO LUV on the PWN Wireless network
+```
