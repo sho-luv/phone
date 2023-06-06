@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 ###
 # 
@@ -54,20 +54,23 @@ options = parser.parse_args()
 # Find these values at https://twilio.com/user/account
 
 # Set Variables ############################################################
-# Twilio Account information
+# Twilio Account information ###############################################
 ############################################################################
-account_sid = "" 
+
+account_sid = ""
 auth_token = ""
 
-###########################################################################
-# SMTP settings server and credentials
-###########################################################################
-smtp_server = 'mail.smtp.com'	# gmail smtp: smtp.gmail.com					
-smtp_port = '2525'		    # gmail port: 587
+###############################################################################
+# SMTP settings server and credentials ########################################
+###############################################################################
+
+smtp_server = 'mail.smtp.com'  # gmail smtp: smtp.gmail.com
+smtp_port = '2525'                 # gmail port: 587
 email_from = 'your@computer.com'    # set from email
 email_subject = 'Alert'             # set subject for email
 username = '' # username
-password = '' # password 
+password = '' # password
+
 ###########################################################################
 
 # check settings before trying to use
@@ -80,10 +83,10 @@ client = Client(account_sid, auth_token)
 
 def valid_number(message):
     try:
-        name = client.lookups.phone_numbers(message).fetch(type='caller-name')
+        name = client.lookups.v1.phone_numbers(message).fetch(type=['caller-name'])
         #pprint.pprint(vars(name))
         if name.country_code != 'US':
-            cprint('[+] ', 'red', attrs=['bold'], end='')  # print success
+            cprint('[+] ', 'red', attrs=['bold'], end='')  # print fail
             cprint("Sorry this program only works with US numbers ", end='')
             cprint(':( ', 'yellow', attrs=['bold'])  # print success
             sys.exit(1)
@@ -91,12 +94,12 @@ def valid_number(message):
         if e.code == 20404:
             return False
         if e.code == 20008:
-            cprint('[+] ', 'red', attrs=['bold'], end='')  # print success
+            cprint('[+] ', 'red', attrs=['bold'], end='')  # print fail
             cprint("Sorry the Twilio test Account_SID and Auth_Token can not be used to run this program ", end='')
             cprint(':( ', 'yellow', attrs=['bold'])  # print success
             sys.exit(1)
         if e.code == 20003:
-            cprint('[+] ', 'red', attrs=['bold'], end='')  # print success
+            cprint('[+] ', 'red', attrs=['bold'], end='')  # print fail
             cprint("Sorry the Twilio Account_SID and Auth_Token appear to be invalid.", end='')
             cprint(':( ', 'yellow', attrs=['bold'])  # print success
             sys.exit(1)
@@ -127,7 +130,7 @@ def valid_number(message):
 
 def name_lookup(number_to_lookup):
     try:
-        name = client.lookups.phone_numbers(number_to_lookup).fetch(type='caller-name')
+        name = client.lookups.v1.phone_numbers(number_to_lookup).fetch(type=['caller-name'])
         if name:
             return (name.caller_name)['caller_name']
         else:
@@ -140,7 +143,7 @@ def name_lookup(number_to_lookup):
 
 def carrier_lookup(number_to_lookup):
     try:
-        carrier = client.lookups.phone_numbers(number_to_lookup).fetch(type='carrier')
+        carrier = client.lookups.v1.phone_numbers(number_to_lookup).fetch(type=['carrier'])
         if carrier:
             return (carrier)
         else:
@@ -186,7 +189,7 @@ if number:
     if options.m is not None:
 
         if carrier_email == 'Uknown':
-            cprint('[+] ', 'red', attrs=['bold'], end='')  # print success
+            cprint('[+] ', 'red', attrs=['bold'], end='')  # print fail
             response = " Unable to send message to %s number %s registered to %s on the %s network" % (color_carrier_type, yellow_phone, green_name, color_carrier) 
             print(response)
         else:
@@ -203,7 +206,7 @@ if number:
                     print(response)
                     sys.exit(0)
             else:
-                    cprint('[+] ', 'red', attrs=['bold'], end='')  # print success
+                    cprint('[+] ', 'red', attrs=['bold'], end='')  # print fail
                     response = " Error sending message to %s number %s registered to %s on the %s network" % (color_carrier_type, yellow_phone, green_name, color_carrier) 
                     print(response)
                     cprint("Sorry unable to send message...", 'red', attrs=['bold'])
@@ -214,7 +217,7 @@ if number:
         print(response)
     sys.exit(0)
 else:
-    cprint('[+] ', 'red', attrs=['bold'], end='')  # print success
+    cprint('[+] ', 'red', attrs=['bold'], end='')  # print fail
     cprint("Sorry that phone number isn't valid ", end='')
     cprint(':( ', 'yellow', attrs=['bold'])  # print success
     sys.exit(1)
